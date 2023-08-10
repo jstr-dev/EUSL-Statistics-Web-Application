@@ -1,0 +1,41 @@
+﻿@page
+@model EUSL_WebApp.Pages.PlayersModel
+
+@{
+    ViewData["Title"] = "Players";
+    ViewData["PlayersActive"] = "active";
+}
+
+<h1>Players</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                SlapshotId
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Nationality
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Player) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlapshotId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nationality.Name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

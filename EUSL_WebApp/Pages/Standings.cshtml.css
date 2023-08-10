@@ -1,0 +1,20 @@
+﻿th {
+    font-weight: normal;
+    line-height: 40px;
+    text-align: center;
+}
+
+    th a {
+        text-decoration: none;
+        color: black;
+        padding-left: 10px;
+    }
+
+        th a:hover {
+            text-decoration: underline;
+            color: black;
+        }
+
+.filterseason {
+    padding: 0;
+}

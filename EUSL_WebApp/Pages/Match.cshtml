@@ -1,0 +1,22 @@
+﻿@page ""
+@model EUSL_WebApp.Pages.MatchModel
+@{
+    ViewData["Title"] = "Match";
+}
+
+
+<h1>DEBUG</h1>
+<h2>Id = @Model.Fixture.FixtureId</h2>
+<h2>@Model.Fixture.HomeTeam.Name (<a href="/team/@Model.Fixture.HomeTeamId">Link</a>) vs @Model.Fixture.AwayTeam.Name (<a href="/team/@Model.Fixture.AwayTeamId">Link</a>)</h2>
+
+@if(Model.Result != null) {
+    <h2>@Model.Result.HomeScore - @Model.Result.AwayScore</h2>
+
+    if (Model.Lines != null)
+    {
+        foreach(var line in Model.Lines)
+        {
+            <p>@line.Player.Name [Team: @line.Team.Name] (Score: @line.Score, Goals: @line.Goals, Primary Assists: @line.PrimaryAssists, Secondary Assists: @line.SecondaryAssists, Saves: @line.Saves, Passes: @line.Passes, Periods: @line.PeriodPlayed())</p>
+        }
+    }
+}

@@ -1,0 +1,35 @@
+﻿@page
+@model EUSL_WebApp.Pages.TeamsModel
+
+@{
+    ViewData["Title"] = "Teams";
+    ViewData["TeamsActive"] = "active";
+}
+
+<h1>Teams</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Short Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Team) {
+        <tr>
+            <td>
+                <a href="/team/@item.TeamId">@item.Name</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortName)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

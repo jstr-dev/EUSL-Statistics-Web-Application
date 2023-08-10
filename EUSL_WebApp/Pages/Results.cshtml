@@ -1,0 +1,70 @@
+﻿@page
+@using EUSL_WebApp.Models;
+@model EUSL_WebApp.Pages.ResultsModel
+@{
+    ViewData["Title"] = "Results";
+    ViewData["ResultsActive"] = "active";
+}
+
+<h1>Results</h1>
+
+<div class="btn-group">
+    <div class="dropdown filterbutton">
+        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="filter1">
+            Season @Model.CurrentSeason.Num
+        </button>
+
+        <ul class="dropdown-menu">
+            @foreach (var season in Model.Seasons)
+            {
+                <li><a class="dropdown-item" href="#">Season @season.Num</a></li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="btn-group">
+    <div class="dropdown filterbutton">
+        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="filter1">
+            @Enum.GetName(typeof(Division), Model.CurrentSeason.Division)
+        </button>
+
+        <ul class="dropdown-menu">
+            @foreach (var season in Model.Seasons)
+            {
+                if (season.Num == Model.CurrentSeason.Num)
+                {
+                    <li><a class="dropdown-item" href="#">@Enum.GetName(typeof(Division), season.Division)</a></li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Home</th>
+            <th>Home Score</th>
+            <th>Away Score</th>
+            <th>Away</th>
+            <th>Overtime</th>
+            <th>Forfeit</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td><a href="/team/@result.Home.TeamId">@result.Home.Name</a></td>
+                <td>@result.HomeScore</td>
+                <td>@result.AwayScore</td>
+                <td><a href="/team/@result.Away.TeamId">@result.Away.Name</a></td>
+                <td>@result.IsOT</td>
+                <td>@result.IsFF</td>
+                <td><a href="/match?id=@result.Fixture">Match</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

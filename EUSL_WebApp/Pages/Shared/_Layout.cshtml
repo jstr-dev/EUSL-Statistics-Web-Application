@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/EUSL_WebApp.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/img/icon.ico" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar py-0 navbar-expand-md navbar-dark bg-dark">
+            <div class="container-md">
+                <a class="navbar-brand" asp-page="/index" asp-area="">
+                    <img src="~/img/logo-alt.png" width="56px" />
+                </a>
+
+                <div class="d-inline-flex">
+                    <form class="d-flex input-group w-auto">
+                        <input type="search"
+                               class="form-control rounded"
+                               placeholder="Search"
+                               aria-label="Search"
+                               aria-describedby="search-addon" />
+                    </form>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsed" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <nav class="navbar py-0 navbar-expand-md navbar-light border-bottom box-shadow mb-3">
+            <div class="container-md">
+                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between" id="collapsed">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item @ViewData["HomeActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/index">Home</a>
+                        </li>
+                        <li class="nav-item @ViewData["FixturesActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/fixtures">Fixtures</a>
+                        </li>
+                        <li class="nav-item @ViewData["ResultsActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/results">Results</a>
+                        </li>
+                        <li class="nav-item @ViewData["StandingsActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/standings">Standings</a>
+                        </li>
+                        <li class="nav-item @ViewData["StatsActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/statistics">Statistics</a>
+                        </li>
+                        <li class="nav-item @ViewData["TransfersActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/transfers">Transfers</a>
+                        </li>
+                        <li class="nav-item @ViewData["TeamsActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/teams">Teams</a>
+                        </li>
+                        <li class="nav-item @ViewData["PlayersActive"]">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/players">Players</a>
+                        </li>
+                    </ul>
+
+                    <!--
+                    <a href="https://www.google.com">
+                        <img src="~/img/steam_signin_small.png" />
+                    </a>
+                    -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <header>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer bg-dark text-muted">
+        <div class="container-md" style="color:white;">
+            &copy; 2023 - European Slapshot League
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

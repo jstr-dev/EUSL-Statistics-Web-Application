@@ -1,0 +1,27 @@
+﻿Add a new table for playoff results, lets call it playoff_results ** This won't work we are going to have to brainstorm this one.
+
+
+DATABASE:
+
+Lets change player_to_team, we don't need transfered_from as we can use date to see which order transfers occured in. We don't REALLY need transferred_to either, and these should be teams. Not transfer records.
+
+We do not need is_gm, we should instead make a new table called season_teams or something that tracks this:
+	id, team_id, season_id, gm
+
+Season to include finished, winner (maybe auto)
+
+TEAM
+	
+	Team Name
+	Team Shorthand Name
+	Arena*
+	Description*
+
+	Recent Results
+	Upcoming Fixtures
+
+	<Dropdown to select seasons> Format: Season 8 Pro [Season NUM DIV]
+	Roster
+		Goals
+		Assists
+		Saves

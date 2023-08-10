@@ -1,0 +1,37 @@
+﻿@page "{id}"
+@model TeamModel
+@using EUSL_WebApp.Models;
+
+@{
+    ViewData["Title"] = Model.Team.Name;
+    ViewData["TeamsActive"] = "active";
+}
+
+<h1>Team</h1>
+<h2>@Model.Team.Name (@Model.Team.ShortName)</h2>
+
+<h1>seasons participated in</h1>
+@foreach (var season in Model.Seasons) {
+    <p>Season @season.Num @Enum.GetName(typeof(Division), season.Division)</p>    
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name test
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Roster)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
