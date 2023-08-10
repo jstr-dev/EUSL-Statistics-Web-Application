@@ -17,6 +17,7 @@ namespace EUSL_WebApp.Pages.Team
         public Models.Team Team { get; set; } = default!;
         public IEnumerable<Player> Roster { get; set; } = default!;
         public IEnumerable<Season> Seasons { get; set; } = default!;
+        public Dictionary<Player, int[]> Statistics { get; set; } = new Dictionary<Player, int[]>();
 
         public TeamModel(EuslContext context)
         {
@@ -52,6 +53,24 @@ namespace EUSL_WebApp.Pages.Team
                 .Where(ptt => ptt.SeasonId == season.SeasonId && ptt.TeamId == id)
                 .Select(ptt => ptt.Player)
                 .ToListAsync();
+
+            // We can some stats to show
+            var playerStats = from fixture in context.Fixtures
+                              join result in context.Results on fixture.FixtureId equals result.FixtureId
+                              join resultline in context.ResultLines on new { id = result.ResultId, player = id } equals new { id = resultline.ResultId, player = resultline.TeamId }
+                              group resultline by resultline.Player into player
+                              select new
+                              {
+                                  Player = player.Key,
+                                  Goals = player.Sum(line => line.Goals),
+                                  Assists = player.Sum(line => line.PrimaryAssists) + player.Sum(line => line.SecondaryAssists),
+                                  Saves = player.Sum(line => line.Saves)
+                              };
+                              
+            foreach (var stat in playerStats)
+            {
+                Statistics.Add(stat.Player, new int[] { stat.Goals, stat.Assists, stat.Saves });
+            }
 
             return Page();
         }

@@ -36,6 +36,21 @@ namespace EUSL_WebApp.Pages
             var standings = await context.GetStandings(this.CurrentSeason);
             this.Standings = standings;
 
+           /* var x = from team in context.Teams
+                    from fixture in context.Fixtures
+                    where (team.TeamId == fixture.HomeTeamId || team.TeamId == fixture.AwayTeamId)
+                    join result in context.Results on fixture.FixtureId equals result.FixtureId
+                    join season in context.Seasons on fixture.SeasonId equals season.SeasonId
+                    where season.SeasonId == this.CurrentSeason.SeasonId
+                    group team by team.TeamId into t
+                    select new
+                    {
+                        Team = t.Key,
+                        Matches = 
+                    }
+           */
+
+
             return Page();
         }
     }
