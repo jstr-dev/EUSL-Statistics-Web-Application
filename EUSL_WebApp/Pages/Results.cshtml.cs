@@ -31,9 +31,18 @@ namespace EUSL_WebApp.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var seasons = await context.Seasons.ToListAsync();
-            this.Seasons = seasons;
-            CurrentSeason = seasons[0];
+            this.Seasons = context.Seasons.ToList();
+
+            // Get the current pro season
+            var current = await context.Seasons.Where(season => season.Division == 1).OrderByDescending(season => season.Num).FirstAsync();
+            if (current != null)
+            {
+                this.CurrentSeason = current;
+            }
+            else
+            {
+                return NotFound();
+            }
 
             // I can try and use the other syntax to do this better/faster later and remove ResultObject (use Fixture instead)
             var results = from result in context.Results

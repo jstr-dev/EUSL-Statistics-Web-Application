@@ -24,7 +24,7 @@ namespace EUSL_WebApp.Pages
             this.Seasons = context.Seasons.ToList();
 
             // Get the current pro season
-            var current = await context.Seasons.Where(season => season.Division == 1).OrderByDescending(season => season.Division).FirstAsync();
+            var current = await context.Seasons.Where(season => season.Division == 1).OrderByDescending(season => season.Num).FirstAsync();
             if (current != null)
             {
                 this.CurrentSeason = current;

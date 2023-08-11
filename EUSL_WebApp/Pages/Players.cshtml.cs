@@ -12,20 +12,20 @@ namespace EUSL_WebApp.Pages
 {
     public class PlayersModel : PageModel
     {
-        private readonly EUSL_WebApp.EuslContext _context;
+        private readonly EUSL_WebApp.EuslContext context;
 
         public PlayersModel(EUSL_WebApp.EuslContext context)
         {
-            _context = context;
+            context = context;
         }
 
         public IEnumerable<Player> Player { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Players != null)
+            if (context.Players != null)
             {
-                Player = await _context.Players
+                Player = await context.Players
                 .Include(p => p.Nationality).ToListAsync();
             }
         }

@@ -1,0 +1,34 @@
+﻿@model List<Roster>
+
+<p>DateTime: @DateTime.Now</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Goals
+            </th>
+            <th>
+                Assists
+            </th>
+            <th>
+                Saves
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Player.Name)
+                </td>
+                <td>@item.Goals</td>
+                <td>@item.Assists</td>
+                <td>@item.Saves</td>
+            </tr>
+        }
+    </tbody>
+</table>
