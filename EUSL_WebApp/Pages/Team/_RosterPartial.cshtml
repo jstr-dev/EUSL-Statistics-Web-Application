@@ -1,21 +1,18 @@
 ﻿@model List<Roster>
 
-<p>DateTime: @DateTime.Now</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Goals
-            </th>
-            <th>
-                Assists
-            </th>
-            <th>
-                Saves
-            </th>
+            <th>Name</th>
+            <th>Matches</th>
+            <th>Periods</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Points</th>
+            <th>Saves</th>
+            <th>Shots</th>
         </tr>
     </thead>
     <tbody>
@@ -23,11 +20,19 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Player.Name)
+                    <a href="/player/@item.Player.PlayerId">@item.Player.Name</a>
                 </td>
+
+                <td>@item.Matches</td>
+                <td>@item.Periods</td>
+                <td>@item.Wins</td>
+                <td>@item.Losses</td>
                 <td>@item.Goals</td>
                 <td>@item.Assists</td>
+                <td>@item.GetPoints()</td>
                 <td>@item.Saves</td>
+                <td>@item.Shots</td>
+                <td></td>
             </tr>
         }
     </tbody>

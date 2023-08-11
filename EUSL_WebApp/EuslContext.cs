@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EUSL_WebApp.Models;
+using EUSL_WebApp.Pages.Team;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 
@@ -316,6 +317,11 @@ public partial class EuslContext : DbContext
             entity.Property(e => e.GoalsAgainst).HasColumnName("Goals Against");
             entity.Property(e => e.GoalDifference).HasColumnName("Goal Difference");
         });
+
+        modelBuilder.Entity<Roster>(entity =>
+        {
+            entity.HasNoKey();
+        });  
 
         OnModelCreatingPartial(modelBuilder);
     }

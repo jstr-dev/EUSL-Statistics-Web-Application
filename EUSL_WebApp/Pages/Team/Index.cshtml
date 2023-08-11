@@ -8,27 +8,32 @@
 }
 
 <h2>@Model.Team.Name (@Model.Team.ShortName)</h2>
+<br/>
 
-@foreach (var season in Model.Seasons) {
-    <p>Season @season.Num @Enum.GetName(typeof(Division), season.Division)</p>    
+<select name="seasons" id="seasons">
+@foreach (var season in Model.Seasons)
+{
+    @if(season == Model.Current) {
+        <option selected value="@season.SeasonId">Season @season.Num @Enum.GetName(typeof(Division), season.Division)</option>
+    }
+    else {
+        <option value="@season.SeasonId">Season @season.Num @Enum.GetName(typeof(Division), season.Division)</option>
+    }
 }
-
-<p>DateTime: @DateTime.Now</p>
+</select>
 
 <div id="roster">
 @await Html.PartialAsync("_RosterPartial", Model.Roster)
 </div>
 
-<button type="button" id="testbutton">Change</button>
-
 @section Scripts
 {
     <script>
-        $('#testbutton').click(function(){
+        $('#seasons').change(function () {
             $.ajax({
                 type: 'GET',
                 url: '/team/8?handler=UpdateRoster',
-                data: {"season": 2, "team": 8},
+                data: {"season": this.value, "team": @Model.Team.TeamId},
                 success: function(response) {
                     $('#roster').html(response)
                 },
