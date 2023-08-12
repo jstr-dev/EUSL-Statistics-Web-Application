@@ -32,7 +32,7 @@
         $('#seasons').change(function () {
             $.ajax({
                 type: 'GET',
-                url: '/team/8?handler=UpdateRoster',
+                url: '/team/' + @Model.Team.TeamId + '?handler=UpdateRoster',
                 data: {"season": this.value, "team": @Model.Team.TeamId},
                 success: function(response) {
                     $('#roster').html(response)

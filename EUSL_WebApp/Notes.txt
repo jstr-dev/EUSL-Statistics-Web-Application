@@ -25,3 +25,37 @@ TEAM
 		Goals
 		Assists
 		Saves
+
+
+Team_Season:
+	Team team
+	Season season
+	Player GM
+
+
+Player -> Team_Season ->
+					Season
+					Team
+					IsGM
+
+Player_To_Team
+	TeamSeason -> (Season, TeamID, IsGM)
+	Position
+	TransferID
+
+TransferLog
+	INT TransferID
+	Player PlayerID
+	ENUM TransferType (Normal, INITIAL 1/Kicked 2/Banned 3)
+	TEAM TransferTo (If Null, you're not on any team, you are a free agent)
+	TEAM TransferFrom (If null, you transfered from free-agent)
+	DateTime Date
+
+Final notes on that:
+
+	Remove transfer_date, is_initial, is_gm*, transfer_to, transfer_from
+	add new tables
+		Transfer_Log (Independant)
+		(Maybe*) Team_Season
+
+	Also I added unique constrant on player_to_team so no duplicates

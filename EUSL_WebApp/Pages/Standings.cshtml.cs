@@ -1,6 +1,8 @@
 using EUSL_WebApp.Models;
+using EUSL_WebApp.Pages.Team;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MySqlConnector;
@@ -19,12 +21,11 @@ namespace EUSL_WebApp.Pages
             this.context = context;
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(int? season)
         {
             this.Seasons = context.Seasons.ToList();
 
-            // Get the current pro season
-            var current = await context.Seasons.Where(season => season.Division == 1).OrderByDescending(season => season.Num).FirstAsync();
+            var current = (season != null) ? await context.Seasons.Where(sz => sz.SeasonId == season).FirstAsync() : await context.Seasons.Where(sz => sz.Division == 1).OrderByDescending(sz => sz.Num).FirstAsync();
             if (current != null)
             {
                 this.CurrentSeason = current;
@@ -36,22 +37,21 @@ namespace EUSL_WebApp.Pages
             var standings = await context.GetStandings(this.CurrentSeason);
             this.Standings = standings;
 
-           /* var x = from team in context.Teams
-                    from fixture in context.Fixtures
-                    where (team.TeamId == fixture.HomeTeamId || team.TeamId == fixture.AwayTeamId)
-                    join result in context.Results on fixture.FixtureId equals result.FixtureId
-                    join season in context.Seasons on fixture.SeasonId equals season.SeasonId
-                    where season.SeasonId == this.CurrentSeason.SeasonId
-                    group team by team.TeamId into t
-                    select new
-                    {
-                        Team = t.Key,
-                        Matches = 
-                    }
-           */
-
-
             return Page();
+        }
+
+        public async Task<PartialViewResult> OnGetUpdateStandingsAsync(int number, int division)
+        {
+            System.Diagnostics.Debug.WriteLine("Hey " + number + " " + division);
+
+            var szn = await this.context.Seasons.Where(sz => sz.Division == division && sz.Num == number).FirstAsync();
+            var standings = await this.context.GetStandings(szn);
+
+            return new PartialViewResult
+            {
+                ViewName = "_StandingPartial",
+                ViewData = new ViewDataDictionary<IEnumerable<Standing>>(ViewData, standings)
+            };
         }
     }
 }

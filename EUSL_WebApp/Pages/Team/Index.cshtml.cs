@@ -43,7 +43,6 @@ namespace EUSL_WebApp.Pages.Team
             this.context = context;
         }
 
-
         /* 
          * I can't seem to get this to work.
          * public async Task<List<Roster>> GetRoster(int season, int team)
@@ -118,7 +117,7 @@ namespace EUSL_WebApp.Pages.Team
                         result_line
                     INNER JOIN result ON result_line.result_id = result.result_id
                     INNER JOIN fixture ON fixture.fixture_id = result.fixture_id
-                    GROUP BY player_id) AS stats ON player_to_team.player_id = stats.player_id
+                    GROUP BY player_id, season_id) AS stats ON player_to_team.player_id = stats.player_id
                         AND stats.season_id = player_to_team.season_id
 	                INNER JOIN player ON player.player_id = player_to_team.player_id
                 WHERE
