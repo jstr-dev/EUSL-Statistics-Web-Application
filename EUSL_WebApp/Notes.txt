@@ -59,3 +59,10 @@ Final notes on that:
 		(Maybe*) Team_Season
 
 	Also I added unique constrant on player_to_team so no duplicates
+
+	Playoff_Fixture round id
+	1: Final
+	2: Semi-Final
+	3: Bronze
+	4: QF
+	5: R1 

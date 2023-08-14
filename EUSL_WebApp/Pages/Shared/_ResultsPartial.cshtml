@@ -1,0 +1,33 @@
+﻿@using EUSL_WebApp.Pages
+@model List<ResultObject>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Home</th>
+            <th>Home Score</th>
+            <th>Away Score</th>
+            <th>Away</th>
+            <th>Overtime</th>
+            <th>Forfeit</th>
+            <th>Playoff</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model)
+        {
+            <tr>
+                <td><a href="/team/@result.Home.TeamId">@result.Home.Name</a></td>
+                <td>@result.HomeScore</td>
+                <td>@result.AwayScore</td>
+                <td><a href="/team/@result.Away.TeamId">@result.Away.Name</a></td>
+                <td>@result.IsOT</td>
+                <td>@result.IsFF</td>
+                <td>@result.IsPlayoff</td>
+                <td><a href="/match?id=@result.Fixture">Match</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

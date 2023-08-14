@@ -15,6 +15,8 @@ public partial class Fixture
 
     public int Gameweek { get; set; }
 
+    public int IsPlayoff { get; set; }
+
     public virtual Team AwayTeam { get; set; } = null!;
 
     public virtual Team HomeTeam { get; set; } = null!;

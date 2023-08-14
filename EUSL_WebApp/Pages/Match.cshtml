@@ -2,6 +2,7 @@
 @model EUSL_WebApp.Pages.MatchModel
 @{
     ViewData["Title"] = "Match";
+    ViewData["ResultsActive"] = "active";
 }
 
 
@@ -9,14 +10,40 @@
 <h2>Id = @Model.Fixture.FixtureId</h2>
 <h2>@Model.Fixture.HomeTeam.Name (<a href="/team/@Model.Fixture.HomeTeamId">Link</a>) vs @Model.Fixture.AwayTeam.Name (<a href="/team/@Model.Fixture.AwayTeamId">Link</a>)</h2>
 
-@if(Model.Result != null) {
-    <h2>@Model.Result.HomeScore - @Model.Result.AwayScore</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Player</th>
+            <th>Team</th>
+            <th>Score</th>
+            <th>Goals</th>
+            <th>PAssists</th>
+            <th>SAssists</th>
+            <th>Shots</th>
+            <th>Saves</th>
+            <th>Passes</th>
+            <th>Periods</th>
+        </tr>
+    </thead>
 
-    if (Model.Lines != null)
-    {
-        foreach(var line in Model.Lines)
+    <tbody>
+        @if (Model.Lines != null)
         {
-            <p>@line.Player.Name [Team: @line.Team.Name] (Score: @line.Score, Goals: @line.Goals, Primary Assists: @line.PrimaryAssists, Secondary Assists: @line.SecondaryAssists, Saves: @line.Saves, Passes: @line.Passes, Periods: @line.PeriodPlayed())</p>
+            foreach(var line in Model.Lines)
+            {
+                <tr>
+                    <td>@line.Player.Name</td>
+                    <td>@line.Team.Name</td>
+                    <td>@line.Score</td>
+                    <td>@line.Goals</td>
+                    <td>@line.PrimaryAssists</td>
+                    <td>@line.SecondaryAssists</td>
+                    <td>@line.Shots</td>
+                    <td>@line.Saves</td>
+                    <td>@line.Passes</td>
+                    <td>@line.PeriodPlayed()</td>
+                </tr>
+            }
         }
-    }
-}
+    </tbody>
+</table>

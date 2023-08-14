@@ -21,6 +21,8 @@ public partial class Result
 
     public int AwayScore { get; set; }
 
+    public int? SeriesNumber { get; set; }
+
     public virtual Fixture Fixture { get; set; } = null!;
 
     public virtual ICollection<ResultLine> ResultLines { get; set; } = new List<ResultLine>();

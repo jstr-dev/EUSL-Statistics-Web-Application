@@ -19,7 +19,7 @@ namespace EUSL_WebApp.Pages
             this.context = context;
         }
 
-        public IEnumerable<Player> Player { get;set; } = default!;
+        public IEnumerable<Models.Player> Player { get;set; } = default!;
 
         public async Task OnGetAsync()
         {

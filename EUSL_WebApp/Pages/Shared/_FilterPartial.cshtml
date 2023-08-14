@@ -1,0 +1,72 @@
+﻿@using Models
+@model List<Season>
+
+@{
+    SortedDictionary<int, List<int>> FilterSeasons = new SortedDictionary<int, List<int>>();
+
+    foreach (var season in Model.OrderByDescending(sz => sz.Num))
+    {
+        if (!FilterSeasons.ContainsKey(season.Division))
+        {
+            FilterSeasons[season.Division] = new List<int>();
+        }
+
+        FilterSeasons[season.Division].Add(season.Num);
+    }
+}
+
+<select name="number" id="numbers">
+    @{
+        if (FilterSeasons.ContainsKey(ViewBag.CurrentSeason.Division)) {
+            foreach (var season in FilterSeasons[ViewBag.CurrentSeason.Division])
+            {
+                if (season == ViewBag.CurrentSeason.Num)
+                {
+                    <option selected value="@season">Season @season</option>
+                }
+                else
+                {
+                    <option value="@season">Season @season</option>
+                }
+            }
+        }
+    }
+</select>
+
+<select name="divisions" id="divisions">
+    @{
+        foreach (var season in FilterSeasons)
+        {
+            if (season.Key == ViewBag.CurrentSeason.Division)
+            {
+                <option selected value="@season.Key">@Enum.GetName(typeof(Division), season.Key)</option>
+            }
+            else
+            {
+                <option value="@season.Key">@Enum.GetName(typeof(Division), season.Key)</option>
+            }
+        }
+    }
+</select>
+
+<script>
+    function AjaxRequest() {
+        $.ajax({
+            type: 'GET',
+            url: window.location.pathname + '?handler=@ViewBag.FilterEndpoint',
+            data: { "number": $('#numbers').val(), "division": $('#divisions').val() },
+            success: function (response) {
+                $('#@ViewBag.FilterHTMLTarget').html(response)
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        })
+    }
+
+    $('#numbers').change(AjaxRequest)
+    $('#divisions').change(AjaxRequest)
+</script>

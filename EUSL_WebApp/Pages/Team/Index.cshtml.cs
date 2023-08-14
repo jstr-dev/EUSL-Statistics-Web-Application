@@ -15,7 +15,7 @@ namespace EUSL_WebApp.Pages.Team
 {
     public class Roster
     {
-        public Player Player { get; set; } = default!;
+        public Models.Player Player { get; set; } = default!;
         public int Goals { get; set; } = default!;
         public int Assists { get; set; } = default!;
         public int Saves { get; set; } = default!;
@@ -84,10 +84,11 @@ namespace EUSL_WebApp.Pages.Team
              return this.Roster;
          }*/
 
-        public async Task<List<Roster>> GetRoster(int season, int team)
+        public async Task<List<Roster>> GetRoster(int season, int team, int playoff)
         {
             MySqlParameter seasonId = new MySqlParameter("@seasonid", season);
             MySqlParameter teamId = new MySqlParameter("@teamid", team);
+            MySqlParameter playoffId = new MySqlParameter("@playoff", playoff);
             var roster = await context.Set<Roster>().FromSqlRaw(@"
                 SELECT 
                     player.player_id as PlayerId,
@@ -117,13 +118,14 @@ namespace EUSL_WebApp.Pages.Team
                         result_line
                     INNER JOIN result ON result_line.result_id = result.result_id
                     INNER JOIN fixture ON fixture.fixture_id = result.fixture_id
+                    WHERE fixture.is_playoff = @playoff
                     GROUP BY player_id, season_id) AS stats ON player_to_team.player_id = stats.player_id
                         AND stats.season_id = player_to_team.season_id
 	                INNER JOIN player ON player.player_id = player_to_team.player_id
                 WHERE
                     player_to_team.season_id = @seasonid
                         AND player_to_team.team_id = @teamid
-            ", seasonId, teamId)
+            ", seasonId, teamId, playoffId)
                 .Include(roster => roster.Player)
                 .ToListAsync();
 
@@ -152,14 +154,14 @@ namespace EUSL_WebApp.Pages.Team
                 return NotFound("No season found.");
 
             this.Current = season;
-            this.Roster = await GetRoster(this.Current.SeasonId, this.Team.TeamId);
+            this.Roster = await GetRoster(this.Current.SeasonId, this.Team.TeamId, 0);
 
             return Page();
         }
 
-        public async Task<PartialViewResult> OnGetUpdateRosterAsync(int season, int team)
+        public async Task<PartialViewResult> OnGetUpdateRosterAsync(int season, int team, int playoff)
         {
-            this.Roster = await GetRoster(season, team);
+            this.Roster = await GetRoster(season, team, playoff);
 
             return new PartialViewResult
             {

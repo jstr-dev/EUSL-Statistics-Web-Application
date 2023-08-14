@@ -1,0 +1,38 @@
+﻿@page "{id}"
+@model indexModel
+
+@{
+    ViewData["Title"] = "index";
+    ViewData["PlayersActive"] = "active";
+}
+
+<h1>index</h1>
+
+<div>
+    <h4>Player</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Player.SlapshotId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Player.SlapshotId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Player.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Player.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Player.Nationality)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Player.Nationality.NationalityId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Player?.PlayerId">Edit</a> |
+    <a asp-page="./In dex">Back to List</a>
+</div>

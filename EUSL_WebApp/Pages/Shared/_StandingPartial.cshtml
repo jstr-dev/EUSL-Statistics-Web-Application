@@ -1,0 +1,51 @@
+﻿@using Models 
+@model IEnumerable<Standing>
+
+<link rel="stylesheet" href="~/css/standings.css" asp-append-version="true" />
+
+<table class="table" id="standingtable">
+    <thead>
+        <tr>
+            <th scope="col" style="text-align:left;">Position</th>
+            <th scope="col" style="text-align:left;">Team</th>
+            <th scope="col">Played</th>
+            <th scope="col">Won</th>
+            <th scope="col">Won (OT)</th>
+            <th scope="col">Lost (OT)</th>
+            <th scope="col">Lost</th>
+            <th scope="col">FF</th>
+            <th scope="col">GF</th>
+            <th scope="col">GA</th>
+            <th scope="col">GD</th>
+            <th scope="col">Points</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            var StandingIndex = 1;
+            foreach (var standing in Model)
+            {
+                <tr>
+                    <th scope="row" style="text-align:left;">@StandingIndex</th>
+                    <th style="text-align:left;">
+                        <img src="~/img/teams/@(standing.TeamID+".png")" style="width:32px" />
+                        <a href="/team/@standing.TeamID?seasonid=@ViewBag.CurrentSeason.SeasonId">@standing.TeamName</a>
+                    </th>
+                    <th>@standing.Matches</th>
+                    <th>@standing.Wins</th>
+                    <th>@standing.OtWins</th>
+                    <th>@standing.OtLosses</th>
+                    <th>@standing.Losses</th>
+                    <th>@standing.Forfeits</th>
+                    <th>@standing.GoalsFor</th>
+                    <th>@standing.GoalsAgainst</th>
+                    <th>@standing.GoalDifference</th>
+                    <th style="font-weight:bold;">@standing.Points</th>
+                </tr>
+
+                StandingIndex++;
+            }
+        }
+    </tbody>
+</table>

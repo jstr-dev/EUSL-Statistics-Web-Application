@@ -64,6 +64,7 @@ public partial class EuslContext : DbContext
             entity.Property(e => e.Gameweek).HasColumnName("gameweek");
             entity.Property(e => e.HomeTeamId).HasColumnName("home_team_id");
             entity.Property(e => e.SeasonId).HasColumnName("season_id");
+            entity.Property(e => e.IsPlayoff).HasColumnName("is_playoff");
 
             entity.HasOne(d => d.AwayTeam).WithMany(p => p.FixtureAwayTeams)
                 .HasForeignKey(d => d.AwayTeamId)
@@ -203,6 +204,7 @@ public partial class EuslContext : DbContext
             entity.Property(e => e.DatePlayed).HasColumnName("date_played");
             entity.Property(e => e.FixtureId).HasColumnName("fixture_id");
             entity.Property(e => e.HomeScore).HasColumnName("home_score");
+            entity.Property(e => e.SeriesNumber).HasColumnName("series_number");
             entity.Property(e => e.IsForfeit)
                 .HasDefaultValueSql("'0'")
                 .HasColumnName("is_forfeit");
@@ -324,14 +326,6 @@ public partial class EuslContext : DbContext
         });  
 
         OnModelCreatingPartial(modelBuilder);
-    }
-
-    public async Task<IEnumerable<Standing>> GetStandings(Season season)
-    {
-        MySqlParameter seasonId = new MySqlParameter("@seasonid", season.SeasonId);
-        var standings = await this.Set<Standing>().FromSqlRaw("CALL GetStandings(@seasonid)", seasonId).ToListAsync();
-
-        return standings;
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

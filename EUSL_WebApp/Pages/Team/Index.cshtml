@@ -22,6 +22,11 @@
 }
 </select>
 
+<select name="playoffswitch" id="playoffswitch">
+    <option selected value="0">Regular Season</option>
+    <option value="1">Playoffs</option>
+</select>
+
 <div id="roster">
 @await Html.PartialAsync("_RosterPartial", Model.Roster)
 </div>
@@ -29,12 +34,12 @@
 @section Scripts
 {
     <script>
-        $('#seasons').change(function () {
+        function AjaxFunc() {
             $.ajax({
                 type: 'GET',
                 url: '/team/' + @Model.Team.TeamId + '?handler=UpdateRoster',
-                data: {"season": this.value, "team": @Model.Team.TeamId},
-                success: function(response) {
+                data: { "season": $('#seasons').val(), "team": @Model.Team.TeamId, "playoff": $('#playoffswitch').val()},
+                success: function (response) {
                     $('#roster').html(response)
                 },
                 failure: function (response) {
@@ -44,6 +49,9 @@
                     alert(response.responseText);
                 }
             })
-        })
+        }
+
+        $('#seasons').change(AjaxFunc)
+        $('#playoffswitch').change(AjaxFunc)
     </script>
 }

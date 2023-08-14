@@ -6,79 +6,11 @@
     ViewData["StandingsActive"] = "active";
 }
 
-<select name="number" id="numbers">
-    @{
-        List<int> seasons = new List<int>();
-        foreach (var season in Model.Seasons.OrderByDescending(sz => sz.Num))
-        {
-            if (seasons.Contains(season.Num)) {
-                continue;
-            }
+<h1>Standings</h1>
+<br/>
 
-            if (season.Num == Model.CurrentSeason.Num)
-            {
-                <option selected value="@season.Num">Season @season.Num</option>
-            }
-            else
-            {
-                <option value="@season.Num">Season @season.Num</option>
-            }
-
-            seasons.Add(season.Num);
-        }
-    }
-</select>
-
-<select name="divisions" id="divisions">
-    @{
-        seasons = new List<int>();
-
-        foreach (var season in Model.Seasons.OrderBy(sz => sz.Division))
-        {
-            if (seasons.Contains(season.Division))
-            {
-                continue;
-            }
-
-            if (season.Division == Model.CurrentSeason.Division)
-            {
-                <option selected value="@season.Division">@Enum.GetName(typeof(Division), season.Division)</option>
-            }
-            else
-            {
-                <option value="@season.Division">@Enum.GetName(typeof(Division), season.Division)</option>
-            }
-
-            seasons.Add(season.Division);
-        }
-    }
-</select>
+@await Html.PartialAsync("_FilterPartial", Model.Seasons)
 
 <div id="standings">
     @await Html.PartialAsync("_StandingPartial", Model.Standings);
 </div>
-
-@section Scripts
-{
-    <script>
-        function AjaxRequest() {
-            $.ajax({
-                type: 'GET',
-                url: '/standings?handler=UpdateStandings',
-                data: { "number": $('#numbers').val(), "division": $('#divisions').val()},
-                success: function (response) {
-                    $('#standings').html(response)
-                },
-                failure: function (response) {
-                    alert(response.responseText);
-                },
-                error: function (response) {
-                    alert(response.responseText);
-                }
-            })
-        }
-
-        $('#numbers').change(AjaxRequest)
-        $('#divisions').change(AjaxRequest)
-    </script>
-}
